@@ -1,0 +1,115 @@
+import java.util.*;
+public class CarRentalSystem{
+	static List<String> availableCars = new ArrayList<>();
+	static Set<String> customers = new HashSet<>();
+	static Map<String, String> rentals = new HashMap<>();
+	public static void addCar(String car){
+		availableCars.add(car);
+		System.out.println("Added car: "+car);
+	}
+
+	public static void addCustomer(String customer){
+		if(customers.add(customer)){
+			System.out.println("Added customer: "+customer);
+		}else{
+			System.out.println("Customer already exists: "+customer);
+		}
+	}
+	
+	public static void rentalCar(String customer, String car){
+		if(!customers.contains(customer)){
+			System.out.println("Customer not registered: "+customer);
+			return;
+		}
+		rentals.put(customer, car);
+		availableCars.remove(car);
+		System.out.println(customer+" has rented "+ car);
+	}
+
+	public static void showAvailableCars(){
+		System.out.println("Available cars: "+availableCars);
+	}
+	
+	public static void showCustomers(){
+		System.out.println("Registered customer: "+customers);
+	}
+	
+	public static void showRental(){
+		System.out.println("Current rentals: ");
+		for(Map.Entry<String, String> entry : rentals.entrySet()){
+			System.out.println(entry.getKey()+" rented "+entry.getValue());
+		}
+	}
+
+	public static void removeCar(String car){
+		if(availableCars.remove(car)){
+			System.out.println("Removed car: "+car);
+		}else{
+			System.out.println("Car not found: "+car);
+		}
+	}
+
+	public static void removeCustomer(String customer){
+		if(customers.remove(customer)){
+			rentals.remove(customer);
+			System.out.println("Removed customer: "+customer);
+		}else{
+		    	System.out.println("Customer not found");
+		}
+	}
+
+	public static void checkCar(String car) {
+        if (availableCars.contains(car)) {
+            System.out.println("Car is available: " + car);
+        } else {
+            System.out.println("Car not found: " + car);
+        }
+    }
+
+    public static void checkCustomer(String customer) {
+        if (customers.contains(customer)) {
+            System.out.println("Customer is registered: " + customer);
+        } else {
+            System.out.println("Customer not found: " + customer);
+        }
+    }
+
+
+	public static void resetSystem(){
+		availableCars.clear();
+		customers.clear();
+		rentals.clear();
+		System.out.println("System reset: all data cleared");
+	}
+
+	public static void main(String[] args){
+		addCar("Toyota Camry");
+		addCar("Honda Civic");
+        addCar("Tesla Model 3");
+       	addCar("Honda Civic"); 
+
+		addCustomer("Alice");
+		addCustomer("Bob");
+		addCustomer("Alice"); 
+
+		showAvailableCars();
+		showCustomers();
+
+		rentalCar("Alice", "Honda Civic");
+        rentalCar("Bob", "Tesla Model 3");
+
+		checkCar("Toyota Camry");
+        checkCar("Honda Civic");
+        checkCustomer("Alice");
+        checkCustomer("Charlie");
+
+        removeCar("Toyota Camry");
+        removeCustomer("Bob");
+
+		showAvailableCars();
+        showCustomers();
+        showRental();
+
+		resetSystem();
+	}
+}
