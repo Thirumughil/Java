@@ -1,0 +1,44 @@
+interface Billable{
+	double generateBill(double amount);
+}
+
+interface Discountable extends Billable{
+	double applyDis(double amount);
+}
+class RegularCustomer implements Billable{
+	@Override
+	public  double generateBill(double amount){
+		return amount;
+	}
+}
+class PremiumCustomer implements Discountable{
+	@Override
+	public double applyDis(double amount){
+		return amount-(amount*0.2);
+	}
+	@Override
+	public double generateBill(double amount){
+		return applyDis(amount);
+	}
+}
+class EmployeeCustomer implements Discountable{
+	@Override
+	public double applyDis(double amount){
+		return amount-(amount*0.3);
+	}
+	@Override
+	public double generateBill(double amount){
+		return applyDis(amount);
+	}
+}
+public class BillingSystem{
+	public static void main(String[] args){
+		Billable reg = new RegularCustomer();
+		Billable pre = new PremiumCustomer();
+		Billable emp = new EmployeeCustomer();
+		double baseAmt=5000;
+		System.out.println("Regular Customer Bill:"+reg.generateBill(baseAmt));
+		System.out.println("Premium Customer Bill:"+pre.generateBill(baseAmt));
+		System.out.println("Employee Customer Bill:"+emp.generateBill(baseAmt));
+	}
+}
