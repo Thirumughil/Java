@@ -1,0 +1,80 @@
+abstract class Employee {
+    protected String name;
+    protected int empId;
+    protected double basicSalary;
+    
+    public Employee(String name, int empId, double basicSalary) {
+        this.name = name;
+        this.empId = empId;
+        this.basicSalary = basicSalary;
+    }
+    
+    public abstract double calculateSalary();
+    
+    public void displaySalaryDetails() {
+        System.out.println("Employee ID: " + empId);
+        System.out.println("Name: " + name);
+        System.out.println("Basic Salary: $" + basicSalary);
+        System.out.println("Total Salary: $" + calculateSalary());
+        System.out.println("---------------------------");
+    }
+}
+
+class FullTimeEmployee extends Employee {
+    public FullTimeEmployee(String name, int empId, double basicSalary) {
+        super(name, empId, basicSalary);
+    }
+    
+    @Override
+    public double calculateSalary() {
+        // 20% bonus on basic salary
+        return basicSalary + (0.20 * basicSalary);
+    }
+}
+
+class PartTimeEmployee extends Employee {
+    private double hourlyRate;
+    private int hoursWorked;
+    
+    public PartTimeEmployee(String name, int empId, double basicSalary, double hourlyRate, int hoursWorked) {
+        super(name, empId, basicSalary);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+    
+    @Override
+    public double calculateSalary() {
+        return basicSalary + (hourlyRate * hoursWorked);
+    }
+    
+    @Override
+    public void displaySalaryDetails() {
+        super.displaySalaryDetails();
+        System.out.println("Hourly Rate: $" + hourlyRate);
+        System.out.println("Hours Worked: " + hoursWorked);
+        System.out.println("---------------------------");
+    }
+}
+
+public class EmployeeManagementSystem {
+    public static void main(String[] args) {
+        Employee emp1 = new FullTimeEmployee("John Doe", 1001, 5000);
+        Employee emp2 = new PartTimeEmployee("Jane Smith", 1002, 1000, 15, 80);
+        
+        System.out.println("Employee Salary Details:");
+        System.out.println("---------------------------");
+        emp1.displaySalaryDetails();
+        emp2.displaySalaryDetails();
+    
+        Employee[] employees = new Employee[3];
+        employees[0] = new FullTimeEmployee("Alice Johnson", 1003, 6000);
+        employees[1] = new PartTimeEmployee("Bob Williams", 1004, 1200, 20, 60);
+        employees[2] = new FullTimeEmployee("Charlie Brown", 1005, 5500);
+        
+        System.out.println("\nProcessing Employee Array:");
+        System.out.println("---------------------------");
+        for (Employee emp : employees) {
+            emp.displaySalaryDetails();
+        }
+    }
+}
